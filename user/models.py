@@ -7,7 +7,6 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from config import settings
-from music.models import Music
 
 
 class User(AbstractUser):
@@ -31,14 +30,5 @@ class User(AbstractUser):
             'exp': calendar.timegm(dt.timetuple())
         }, settings.SECRET_KEY, algorithm='HS256')
 
-
-class FavoriteMusic(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    music = models.ManyToManyField(Music, verbose_name="list of music for user")
-
-    class Meta:
-        verbose_name = 'Избранное'
-        verbose_name_plural = 'Избранное'
-
     def __str__(self):
-        return self.name
+        return self.username

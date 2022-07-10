@@ -20,9 +20,10 @@ from music import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('catalog/music/<int:pk>/', views.MusicDetailView.as_view()),
-    path('catalog/music/', views.MusicView.as_view()),
-    path('selection/', views.SelectionView.as_view()),
-    path('selection/<int:pk>/update/', views.SelectionUpdateView.as_view()),
+    # path('catalog/music/<int:pk>/', views.MusicDetailView.as_view()),
+    # path('catalog/music/', views.MusicView.as_view()),
+    # path('selection/', views.SelectionView.as_view()),
+    # path('selection/<int:pk>/update/', views.SelectionUpdateView.as_view()),
     path('user/', include("user.urls")),
+    path('catalog/', include("music.urls")),
 ]
