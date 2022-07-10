@@ -24,4 +24,5 @@ urlpatterns = [
     path('catalog/music/', views.MusicView.as_view()),
     path('selection/', views.SelectionView.as_view()),
     path('selection/<int:pk>/update/', views.SelectionUpdateView.as_view()),
+    path('user/', include("user.urls")),
 ]

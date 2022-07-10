@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Music(models.Model):
     name = models.CharField(max_length=20)
     audio_file = models.CharField(max_length=20)
@@ -13,6 +14,7 @@ class Music(models.Model):
     def __str__(self):
         return self.name
 
+
 class Selection(models.Model):
     name = models.CharField(max_length=20)
     fk = models.ManyToManyField(Music)
@@ -23,4 +25,3 @@ class Selection(models.Model):
 
     def __str__(self):
         return self.name
-
