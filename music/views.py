@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView
 from rest_framework import permissions
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, GenericAPIView, RetrieveAPIView, \
-    DestroyAPIView
+    DestroyAPIView, RetrieveUpdateAPIView, get_object_or_404
 
 #
 # from music.models import Music, Selection
@@ -60,11 +60,13 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, G
 #     permission_classes = [SelectionEditPermission]
 #
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from music.models import Track, Selection
 from music.permissions import SelectionEditPermission
-from music.serializers import TrackSerializer, StaredTrackSerializer, AddToFavoriteSerializer, \
-    SelectionDetailSerializer, SelectionSerializer
+from music.serializers import TrackSerializer, StaredTrackSerializer, \
+    SelectionDetailSerializer, SelectionSerializer, UpdateTrackSerializer
 
 
 class TrackView(ListAPIView):
@@ -79,9 +81,25 @@ class TrackRetrieveView(RetrieveAPIView):
     permission_classes = [permissions.AllowAny, ]
 
 
-class StaredTrackView(UpdateAPIView):
-    queryset = Track.objects.all()
-    serializer_class = AddToFavoriteSerializer
+class StaredTrackView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def post(self, request, *args, **kwargs):
+        bad_request_message = 'An error has occurred'
+
+        track = get_object_or_404(Track, id=request.data.get('id'))
+        if request.user not in track.stared_user.all():
+            track.stared_user.add(request.user)
+            return Response({'detail': 'User added to track'})
+        return Response({'detail': bad_request_message})
+
+    def delete(self, request, *args, **kwargs):
+        bad_request_message = 'An error has occurred'
+        track = get_object_or_404(Track, id=request.data.get('id'))
+        if request.user in track.stared_user.all():
+            track.stared_user.remove(request.user)
+            return Response({'detail': 'User removed from track'})
+        return Response({'detail': bad_request_message})
 
 
 class SelectionListView(ListAPIView):

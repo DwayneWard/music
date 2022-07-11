@@ -43,15 +43,15 @@ class StaredTrackSerializer(serializers.ModelSerializer):
         )
 
 
-class AddToFavoriteSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+class UpdateTrackSerializer(serializers.ModelSerializer):
+    users = UserSerializer(many=True)
 
     class Meta:
         model = Track
         fields = (
             'id',
             "name",
-            'user',
+            'users',
         )
 
 
