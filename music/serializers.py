@@ -8,7 +8,7 @@ from rest_framework import serializers
 #         model = Selection
 #         fields = '__all__'
 #
-from music.models import Track
+from music.models import Track, Selection
 from user.serializers import UserSerializer
 
 
@@ -53,3 +53,21 @@ class AddToFavoriteSerializer(serializers.ModelSerializer):
             "name",
             'user',
         )
+
+
+class SelectionDetailSerializer(serializers.ModelSerializer):
+    items = TrackSerializer(many=True)
+    owner = serializers.SlugRelatedField(
+        slug_field="email",
+        read_only=True,
+    )
+
+    class Meta:
+        model = Selection
+        fields = '__all__'
+
+
+class SelectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Selection
+        fields = '__all__'
