@@ -1,42 +1,6 @@
 from django.db import models
+from django.urls import reverse
 
-# class Music(models.Model):
-#     name = models.CharField(max_length=20)
-#     audio_file = models.CharField(max_length=20)
-#     durations = models.DurationField()
-#     info = models.TextField(max_length=200)
-#
-#     class Meta:
-#         verbose_name = 'Трек'
-#         verbose_name_plural = 'Треки'
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-# class Selection(models.Model):
-#     name = models.CharField(max_length=20)
-#     fk = models.ManyToManyField(Music)
-#
-#     class Meta:
-#         verbose_name = 'Подборка'
-#         verbose_name_plural = 'Подборки'
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-# class FavoriteMusic(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     music = models.ManyToManyField(Music, verbose_name="list of music for user")
-#
-#     class Meta:
-#         verbose_name = 'Избранное'
-#         verbose_name_plural = 'Избранное'
-#
-#     def __str__(self):
-#         return self.name
-#
 from user.models import User
 
 
@@ -49,6 +13,7 @@ class Track(models.Model):
     album = models.CharField(max_length=50)
     logo = models.ImageField(null=True, blank=True)
     stared_user = models.ManyToManyField(User, related_name='favorite_tracks')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
 
     class Meta:
         verbose_name = 'Трек'
@@ -56,6 +21,10 @@ class Track(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('track', kwargs={'track_slug': self.slug} )
+
 
 
 class Selection(models.Model):
