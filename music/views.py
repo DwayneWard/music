@@ -1,7 +1,6 @@
-from django.shortcuts import render
 from django.views import View
 from rest_framework import permissions
-from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, GenericAPIView, RetrieveAPIView, \
+from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, RetrieveAPIView, \
     DestroyAPIView, get_object_or_404
 
 from rest_framework.permissions import IsAuthenticated
@@ -25,28 +24,30 @@ class TrackRetrieveView(RetrieveAPIView):
     serializer_class = StaredTrackSerializer
     permission_classes = [permissions.AllowAny, ]
 
-class TracksView(View):
-    queryset = Track.objects.all()
-    serializer_class = StaredTrackSerializer
-    permission_classes = [permissions.AllowAny, ]
-
-
-def show_track(request, track_slug):
-    track = get_object_or_404(Track, slug=track_slug)
-
-    context = {
-        'name': track.name,
-        'author': track.author,
-        'release_date': track.release_date,
-        'genre': track.genre,
-        'duration_in_seconds': track.duration_in_seconds,
-        'album': track.album,
-        'logo': track.logo,
-        'stared_user': track.stared_user,
-        'slug': track.slug
-    }
-
-    return Response(context)
+#
+# class TracksView(View):
+#     queryset = Track.objects.all()
+#     serializer_class = StaredTrackSerializer
+#     permission_classes = [permissions.AllowAny, ]
+#
+#
+# def show_track(request, track_slug):
+#     track = get_object_or_404(Track, slug=track_slug)
+#
+#     context = {
+#         'name': track.name,
+#         'author': track.author,
+#         'release_date': track.release_date,
+#         'genre': track.genre,
+#         'duration_in_seconds': track.duration_in_seconds,
+#         'album': track.album,
+#         'logo': track.logo,
+#         'stared_user': track.stared_user,
+#         'slug': track.slug
+#     }
+#
+#     return Response(context)
+#
 
 class StaredTrackView(APIView):
     permission_classes = [IsAuthenticated, ]
@@ -68,6 +69,7 @@ class StaredTrackView(APIView):
             return Response({'detail': 'User removed from track'})
         return Response({'detail': bad_request_message})
 
+
 class StaredTracksView(APIView):
     permission_classes = [IsAuthenticated, ]
 
@@ -86,12 +88,12 @@ class StaredTracksView(APIView):
 
     def delete(self, request, *args, **kwargs):
         bad_request_message = 'An error has occurred'
-        ids = request.query_params['id'].split ( ',')
+        ids = request.query_params['id'].split(',')
         tracks = []
         for i in ids:
             tracks.append(get_object_or_404(Track, id=int(i)))
         for track in tracks:
-            if request.user not in track.stared_user.all ():
+            if request.user not in track.stared_user.all():
                 track.stared_user.remove(request.user)
             else:
                 return Response({'detail': bad_request_message})

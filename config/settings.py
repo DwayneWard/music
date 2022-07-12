@@ -28,7 +28,6 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'user.User'
 
-JWT_SECRET_KEY = 's3cRSeT'
 # Application definition
 
 INSTALLED_APPS = [
@@ -81,12 +80,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('POSTGRES_DB', 'todolist'),
-        'USER': os.environ.get('POSTGRES_USER', 'postgres'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'password'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'music_db',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': "localhost",
+        'PORT': "5432",
     },
 }
 
