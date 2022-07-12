@@ -22,9 +22,6 @@ class Track(models.Model):
     def __str__(self):
         return self.name
 
-    # def get_absolute_url(self):
-    #     return reverse('track', kwargs={'track_slug': self.slug} )
-
 
 class Selection(models.Model):
     name = models.CharField(verbose_name="Название", max_length=25)

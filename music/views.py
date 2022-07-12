@@ -1,4 +1,3 @@
-from django.views import View
 from rest_framework import permissions
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, RetrieveAPIView, \
     DestroyAPIView, get_object_or_404
@@ -9,45 +8,20 @@ from rest_framework.views import APIView
 
 from music.models import Track, Selection
 from music.permissions import SelectionEditPermission
-from music.serializers import StaredTrackSerializer, \
-    SelectionDetailSerializer, SelectionSerializer
+from music.serializers import SelectionDetailSerializer, SelectionSerializer, TrackSerializer
 
 
 class TrackView(ListAPIView):
     queryset = Track.objects.all()
-    serializer_class = StaredTrackSerializer
+    serializer_class = TrackSerializer
     permission_classes = [permissions.AllowAny, ]
 
 
 class TrackRetrieveView(RetrieveAPIView):
     queryset = Track.objects.all()
-    serializer_class = StaredTrackSerializer
+    serializer_class = TrackSerializer
     permission_classes = [permissions.AllowAny, ]
 
-#
-# class TracksView(View):
-#     queryset = Track.objects.all()
-#     serializer_class = StaredTrackSerializer
-#     permission_classes = [permissions.AllowAny, ]
-#
-#
-# def show_track(request, track_slug):
-#     track = get_object_or_404(Track, slug=track_slug)
-#
-#     context = {
-#         'name': track.name,
-#         'author': track.author,
-#         'release_date': track.release_date,
-#         'genre': track.genre,
-#         'duration_in_seconds': track.duration_in_seconds,
-#         'album': track.album,
-#         'logo': track.logo,
-#         'stared_user': track.stared_user,
-#         'slug': track.slug
-#     }
-#
-#     return Response(context)
-#
 
 class StaredTrackView(APIView):
     permission_classes = [IsAuthenticated, ]

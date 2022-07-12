@@ -1,11 +1,6 @@
-import calendar
-from datetime import datetime, timedelta
-
-import jwt
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from config import settings
 
 
 class User(AbstractUser):

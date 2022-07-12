@@ -4,7 +4,6 @@ from music import views
 
 urlpatterns = [
     path('track/all/', views.TrackView.as_view()),
-    # path ('/<slug:track_slug>/', views.show_track),
     path('track/<int:pk>/', views.TrackRetrieveView.as_view()),
     path('track/<slug:post_slug>/', views.TrackRetrieveView.as_view()),
     path('track/<int:pk>/favorite/', views.StaredTrackView.as_view()),
