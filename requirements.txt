@@ -1,0 +1,13 @@
+asgiref==3.5.0
+Django==4.0.3
+django-environ==0.8.1
+psycopg2-binary==2.9.3
+psycopg2-pool==1.1
+python-dotenv==0.20.0
+sqlparse==0.4.2
+djangorestframework==3.13.1
+djangorestframework-jwt==1.11.0
+djangorestframework-simplejwt==5.2.0
+drf-yasg
+pillow
+rest_framework
