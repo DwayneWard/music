@@ -13,6 +13,7 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./.docker_env:/app/.env
+      - ./django_media:/app/django_media
   migrations:
     build:
       context: .
