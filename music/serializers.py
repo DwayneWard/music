@@ -1,18 +1,10 @@
 from rest_framework import serializers
-
-# from music.models import Selection
-#
-#
-# class SelectionSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Selection
-#         fields = '__all__'
-#
 from music.models import Track, Selection
 from user.serializers import UserSerializer
 
 
 class TrackSerializer(serializers.ModelSerializer):
+    stared_user = UserSerializer(many=True)
 
     class Meta:
         model = Track
@@ -26,6 +18,8 @@ class TrackSerializer(serializers.ModelSerializer):
             'duration_in_seconds',
             'album',
             'logo',
+            'track_file',
+            'stared_user',
         )
 
 
@@ -43,18 +37,6 @@ class StaredTrackSerializer(serializers.ModelSerializer):
         )
 
 
-class UpdateTrackSerializer(serializers.ModelSerializer):
-    users = UserSerializer(many=True)
-
-    class Meta:
-        model = Track
-        fields = (
-            'id',
-            "name",
-            'users',
-        )
-
-
 class SelectionDetailSerializer(serializers.ModelSerializer):
     items = TrackSerializer(many=True)
     owner = serializers.SlugRelatedField(
@@ -68,6 +50,9 @@ class SelectionDetailSerializer(serializers.ModelSerializer):
 
 
 class SelectionSerializer(serializers.ModelSerializer):
+    items = TrackSerializer(many=True)
+    owner = UserSerializer()
+
     class Meta:
         model = Selection
-        fields = '__all__'
+        fields = ('id', 'items', 'owner')
